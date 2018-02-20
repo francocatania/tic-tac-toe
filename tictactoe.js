@@ -61,4 +61,5 @@ let newRound = function() {
   });
 }
 
+// TODO check for winner;
 newRound();
