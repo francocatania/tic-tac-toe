@@ -40,12 +40,11 @@ let currentRound = 1;
 let newRound = function() {
   printBoard();
   consoleTurn();
-  prompt.get(['position'], function (err, result) {
+  prompt.get('position', function (err, result) {
     let choice = result.position;
-    if (boardObject[choice]) {
+    if (boardObject[choice] === ' ') {
       if (isCircleTurn) {
         boardObject[choice] = 'O';
-        console.log(boardObject[choice]);
         isCircleTurn = !isCircleTurn;
       } else {
         boardObject[choice] = 'X';
@@ -53,6 +52,10 @@ let newRound = function() {
       }
     } else {
       console.log('That is not a valid input');
+      console.log('Try again with another position..');
+    }
+    if (checkHorizontalWinner() || checkVerticalWinner() || checkDiagonalWinner()) {
+      return;
     }
     currentRound++;
     if (currentRound < rounds) {
@@ -61,5 +64,44 @@ let newRound = function() {
   });
 }
 
-// TODO check for winner;
+const checkHorizontalWinner = () => {
+  for (var i = 0; i < 3; i++) {
+    if (boardObject[i+1] === 'O' && boardObject[i+2] === 'O' && boardObject[i+3] === 'O') {
+      console.log('Circle Wins!');
+      console.log('Thanks for playing');
+      return true;
+    } else if (boardObject[i+1] === 'X' && boardObject[i+2] === 'X' && boardObject[i+3] === 'X') {
+      console.log('Cross Wins!');
+      console.log('Thanks for playing');
+      return true;
+    }
+  }
+}
+
+const checkVerticalWinner = () => {
+  for (var i = 0; i < 3; i++) {
+    if (boardObject[i+1] === 'O' && boardObject[i+4] === 'O' && boardObject[i+7] === 'O') {
+      console.log('Circle Wins!');
+      console.log('Thanks for playing');
+      return true;
+    } else if (boardObject[i+1] === 'X' && boardObject[i+4] === 'X' && boardObject[i+7] === 'X') {
+      console.log('Cross Wins!');
+      console.log('Thanks for playing');
+      return true;
+    }
+  }
+}
+
+const checkDiagonalWinner = () => {
+  if (boardObject[1] === 'O' && boardObject[5] === 'O' && boardObject[9] === 'O') {
+    console.log('Circle Wins!');
+    console.log('Thanks for playing');
+    return true;
+  } else if (boardObject[1] === 'X' && boardObject[5] === 'X' && boardObject[9] === 'X') {
+    console.log('Cross Wins!');
+    console.log('Thanks for playing');
+    return true;
+  }
+}
+
 newRound();
